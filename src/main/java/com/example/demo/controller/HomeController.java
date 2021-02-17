@@ -18,12 +18,6 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value="/hello")
     public String hello(HttpSession session) {
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		String sessionId = session.getId();
         logger.info("Session ID : " + sessionId);
 
