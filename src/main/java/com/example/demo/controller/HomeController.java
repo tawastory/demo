@@ -28,14 +28,6 @@ public class HomeController {
     public String hello(HttpSession session) {
 		String sessionId = session.getId();
 		
-		try {
-			String enId = AES256Cipher.AES_Encode(sessionId);
-			String desId = AES256Cipher.AES_Decode(sessionId);
-		} catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException
-				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
-			e.printStackTrace();
-		}
-		
 		logger.info("Session ID : " + sessionId);
 
         return "Session ID : " + sessionId;
