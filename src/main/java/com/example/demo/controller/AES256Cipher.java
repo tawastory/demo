@@ -31,7 +31,7 @@ public class AES256Cipher {
     }
 
     private AES256Cipher() {
-        IV = secretKey.substring(0, 16);
+        IV = secretKey.substring(0, 15);
     }
 
     //암호화
@@ -41,7 +41,9 @@ public class AES256Cipher {
         SecretKey secureKey = new SecretKeySpec(keyData, "AES");
 
         Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes()));
+        String str1="12345678901234";
+        c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(str1.getBytes()));
+        //c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes("UTF-8")));
 
         byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
         String enStr = new String(Base64.encodeBase64(encrypted));
@@ -54,9 +56,12 @@ public class AES256Cipher {
         byte[] keyData = secretKey.getBytes();
         SecretKey secureKey = new SecretKeySpec(keyData, "AES");
         Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes("UTF-8")));
+        //c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes("UTF-8")));
+        
+        String str1="12345678901234";
+        c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(str1.getBytes()));
 
-        byte[] byteStr = Base64.decodeBase64(str.getBytes());
+        byte[] byteStr = Base64.decodeBase64(str1.getBytes());
 
         return new String(c.doFinal(byteStr), "UTF-8");
     }
