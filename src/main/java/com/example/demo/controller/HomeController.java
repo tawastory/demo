@@ -1,5 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -19,7 +27,16 @@ public class HomeController {
 	@RequestMapping(value="/hello")
     public String hello(HttpSession session) {
 		String sessionId = session.getId();
-        logger.info("Session ID : " + sessionId);
+		
+		try {
+			String enId = AES256Cipher.AES_Encode(sessionId);
+			String desId = AES256Cipher.AES_Decode(sessionId);
+		} catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException
+				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("Session ID : " + sessionId);
 
         return "Session ID : " + sessionId;
     }
